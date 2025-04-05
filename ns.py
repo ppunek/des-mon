@@ -1,13 +1,13 @@
 import re
-import json
 import requests
+import json
 
-#Ler do Google Drive
+#Ler Google Drive
 file_id = '1Yevi4dvJ1O5IHn8fKXM31bm0Nmlk8EzS'
 url = f'https://drive.google.com/uc?export=download&id={file_id}'
 
 response = requests.get(url)
-conteudo = response.text 
+conteudo = response.text
 
 #Funções de parsing
 def is_scene_heading(line):
@@ -20,9 +20,8 @@ def parse_script(text):
     lines = text.splitlines()
     scenes = []
     current_scene = None
-    current_char = None
-
     i = 0
+
     while i < len(lines):
         line = lines[i].strip()
 
@@ -31,27 +30,38 @@ def parse_script(text):
                 scenes.append(current_scene)
             current_scene = {
                 "scene": line,
-                "description": "",
-                "dialogue": []
+                "content": []
             }
-            current_char = None
+            i += 1
+            continue
 
         elif is_character_name(line):
-            current_char = line
-            j = i + 1
+            character = line
+            i += 1
             dialogue_lines = []
-            while j < len(lines) and lines[j].strip() and not is_character_name(lines[j]) and not is_scene_heading(lines[j]):
-                dialogue_lines.append(lines[j].strip())
-                j += 1
-            if current_scene and current_char and dialogue_lines:
-                current_scene["dialogue"].append({
-                    "character": current_char,
+            while i < len(lines) and lines[i].strip() and not is_character_name(lines[i]) and not is_scene_heading(lines[i]):
+                dialogue_lines.append(lines[i].strip())
+                i += 1
+            if current_scene and dialogue_lines:
+                current_scene["content"].append({
+                    "type": "dialogue",
+                    "character": character,
                     "line": " ".join(dialogue_lines)
                 })
-            i = j - 1
+            continue
 
         elif line and current_scene:
-            current_scene["description"] += " " + line
+            #Captura descrição intermediária
+            desc_lines = [line]
+            i += 1
+            while i < len(lines) and lines[i].strip() and not is_character_name(lines[i]) and not is_scene_heading(lines[i]):
+                desc_lines.append(lines[i].strip())
+                i += 1
+            current_scene["content"].append({
+                "type": "description",
+                "text": " ".join(desc_lines)
+            })
+            continue
 
         i += 1
 
@@ -60,10 +70,12 @@ def parse_script(text):
 
     return scenes
 
-#Processar e salvar
+#Processar/Salvar
 roteiro_processado = parse_script(conteudo)
 
-with open("shining_parsed_from_drive.json", "w", encoding="utf-8") as f:
+with open("shining.json", "w", encoding="utf-8") as f:
     json.dump(roteiro_processado, f, indent=2, ensure_ascii=False)
 
-print("✅ Roteiro processado com sucesso! Salvo como shining_parsed.json")
+print("Salvo shining.json")
+
+
