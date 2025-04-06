@@ -2,14 +2,12 @@ import re
 import requests
 import json
 
-#Ler Google Drive
 file_id = '1Yevi4dvJ1O5IHn8fKXM31bm0Nmlk8EzS'
 url = f'https://drive.google.com/uc?export=download&id={file_id}'
 
 response = requests.get(url)
 conteudo = response.text
 
-#Funções de parsing
 def is_scene_heading(line):
     return line.strip().startswith(('INT.', 'EXT.'))
 
@@ -51,7 +49,6 @@ def parse_script(text):
             continue
 
         elif line and current_scene:
-            #Captura descrição intermediária
             desc_lines = [line]
             i += 1
             while i < len(lines) and lines[i].strip() and not is_character_name(lines[i]) and not is_scene_heading(lines[i]):
@@ -70,7 +67,6 @@ def parse_script(text):
 
     return scenes
 
-#Processar/Salvar
 roteiro_processado = parse_script(conteudo)
 
 with open("THE SHINING.json", "w", encoding="utf-8") as f:

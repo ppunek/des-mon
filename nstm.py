@@ -2,14 +2,12 @@ import re
 import requests
 import json
 
-# Baixar conteúdo do Google Drive
 file_id = '195zPsYhg57YLXUtvzwZ55Y459I1wzYdf'
 url = f'https://drive.google.com/uc?export=download&id={file_id}'
 
 response = requests.get(url)
 conteudo = response.text
 
-# Funções de parsing
 def is_scene_heading(line):
     return re.match(r'^\d+\s+(INT\.|EXT\.)', line.strip())
 
@@ -25,7 +23,6 @@ def parse_script(text):
     while i < len(lines):
         line = lines[i].rstrip()
 
-        # Cena
         if is_scene_heading(line):
             if current_scene:
                 scenes.append(current_scene)
@@ -36,7 +33,6 @@ def parse_script(text):
             i += 1
             continue
 
-        # Personagem e fala
         elif line.startswith('                        ') and is_character_name(line.strip()):
             character = line.strip()
             i += 1
@@ -52,7 +48,6 @@ def parse_script(text):
                 })
             continue
 
-        # Descrição
         elif line.strip() and current_scene:
             desc_lines = [line.strip()]
             i += 1
@@ -75,10 +70,8 @@ def parse_script(text):
 
     return scenes
 
-# Processar
 roteiro_processado = parse_script(conteudo)
 
-# Salvar
 with open("THE MENU.json", "w", encoding="utf-8") as f:
     json.dump(roteiro_processado, f, indent=2, ensure_ascii=False)
 

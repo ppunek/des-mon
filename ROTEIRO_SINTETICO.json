@@ -1,0 +1,59 @@
+[
+  {
+    "scene": "EXT. BEACH AT SUNSET - DAY - WIDE SHOT",
+    "content": [
+      {
+        "type": "description",
+        "text": "The sun bleeds onto the horizon, painting the sky in vibrant hues of orange and purple. The gentle roar of the waves provides a soothing background score. A young couple, ANNA and RAFAEL, walk hand in hand along the sandy shore, their silhouettes framed against the breathtaking sunset."
+      },
+      {
+        "type": "dialogue",
+        "character": "ANNA",
+        "line": "This is perfect. Just the two of us, the beach, and this incredible sky."
+      },
+      {
+        "type": "dialogue",
+        "character": "RAFAEL",
+        "line": "Yeah, it's like the world disappears and it's just us."
+      }
+    ]
+  },
+  {
+    "scene": "INT. ANNA'S LIVING ROOM - NIGHT - MEDIUM SHOT",
+    "content": [
+      {
+        "type": "description",
+        "text": "Anna sits on a plush velvet armchair, a steaming mug of tea in her hand. The living room is bathed in the warm glow of a fireplace, casting dancing shadows on the walls. A large window offers a view of the moonlit night."
+      },
+      {
+        "type": "dialogue",
+        "character": "ANNA",
+        "line": "I still can't believe we moved here. It's a huge change."
+      },
+      {
+        "type": "dialogue",
+        "character": "RAFAEL",
+        "line": "It's a chance to start fresh, Anna. To build something new together."
+      }
+    ]
+  },
+  {
+    "scene": "EXT. COUNTRY ROAD AT NIGHT - NIGHT - SLOW MOTION",
+    "content": [
+      {
+        "type": "description",
+        "text": "A dusty road winds through a field of tall, swaying grass. The moonlight illuminates the path ahead, while the surrounding woods remain shrouded in darkness. Anna and Rafael drive along the road in a vintage convertible, the wind whipping through their hair. Anna's hand rests on Rafael's arm, her eyes filled with a sense of wonder."
+      },
+      {
+        "type": "dialogue",
+        "character": "ANNA",
+        "line": "This feels like something out of a movie."
+      },
+      {
+        "type": "dialogue",
+        "character": "RAFAEL",
+        "line": "It's our movie, Anna. We're writing our own story."
+      }
+    ]
+  }
+]

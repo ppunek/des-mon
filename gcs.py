@@ -1,37 +1,72 @@
-import openai
+from vertexai.generative_models import GenerativeModel
+from google.cloud import aiplatform
+from google.oauth2 import service_account
 import json
 
-client = openai.OpenAI(api_key="")
+credentials = service_account.Credentials.from_service_account_file(CREDENTIALS_PATH)
+aiplatform.init(project=PROJECT_ID, location=LOCATION, credentials=credentials)
 
-prompt = (
-    "Gere um exemplo curto de cena de um roteiro audiovisual em inglês, "
-    "incluindo descrição breve do local, diálogos curtos com dois personagens, "
-    "e uma lista de objetos visíveis na cena. O retorno deve ser em formato JSON, "
-    "seguindo este exemplo:\n\n"
-    "{\n"
-    "  \"scene\": 1,\n"
-    "  \"location\": \"Cafeteria\",\n"
-    "  \"time\": \"Morning\",\n"
-    "  \"description\": \"A busy coffee shop filled with customers and the smell of fresh coffee.\",\n"
-    "  \"dialogues\": [\n"
-    "    {\"character\": \"Bob\", \"line\": \"Two espressos, please.\"},\n"
-    "    {\"character\": \"Barista\", \"line\": \"Coming right up!\"}\n"
-    "  ],\n"
-    "  \"objects\": [\"espresso machine\", \"coffee cup\", \"table\"]\n"
-    "}"
-)
+model = GenerativeModel("gemini-1.5-flash-preview-0514")
 
-response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "system", "content": "Você gera cenas em formato JSON."},
-        {"role": "user", "content": prompt}
-    ],
-    temperature=0.7,
-    max_tokens=300
-)
+prompt = """
+Generate a short synthetic movie script based on the following JSON format, in English, with rich descriptions of objects and scenery:
 
-generated_scene = response.choices[0].message.content
-scene_json = json.loads(generated_scene)
+[
+  {
+    "scene": "EXT. BEACH AT SUNSET - DAY - WIDE SHOT",
+    "content": [
+      {
+        "type": "description",
+        "text": "The sun sets on the horizon. The sound of waves is constant. A couple walks hand in hand along the shore."
+      },
+      {
+        "type": "dialogue",
+        "character": "ANNA",
+        "line": "It's so peaceful here... feels like time stands still."
+      },
+      {
+        "type": "dialogue",
+        "character": "RAFAEL",
+        "line": "Maybe because we want it to."
+      }
+    ]
+  },
+  {
+    "scene": "INT. ANNA'S LIVING ROOM - NIGHT - MEDIUM SHOT",
+    "content": [
+      {
+        "type": "description",
+        "text": "The room is dimly lit. Anna sits on the couch with a cup of tea."
+      },
+      {
+        "type": "dialogue",
+        "character": "ANNA",
+        "line": "Do you think we made the right choice?"
+      },
+      {
+        "type": "dialogue",
+        "character": "RAFAEL (OFF)",
+        "line": "We always do... even if we only realize it later."
+      }
+    ]
+  }
+]
 
-print(json.dumps(scene_json, indent=2))
+Follow this structure, return 2 to 4 scenes with a mix of descriptions and dialogues. Respond only with valid JSON format.
+"""
+
+response = model.generate_content(prompt)
+texto = response.text.strip()
+
+if texto.startswith("```json"):
+    texto = texto.removeprefix("```json").strip()
+if texto.endswith("```"):
+    texto = texto.removesuffix("```").strip()
+
+try:
+    dados = json.loads(texto)
+    with open("ROTEIRO_SINTETICO.json", "w", encoding="utf-8") as f:
+        json.dump(dados, f, indent=2, ensure_ascii=False)
+
+except json.JSONDecodeError as e:
+    print("Erro")
