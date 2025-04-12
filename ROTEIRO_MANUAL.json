@@ -1,0 +1,60 @@
+[
+    {
+      "scene": "INT. KITCHEN - MORNING - M.S.",
+      "content": [
+        {
+          "type": "description",
+          "text": "Sunlight filters through the blinds. A kettle whistles on the stove. Emily slices strawberries at the counter."
+        },
+        {
+          "type": "dialogue",
+          "character": "EMILY",
+          "line": "Want some tea?"
+        },
+        {
+          "type": "dialogue",
+          "character": "JACK",
+          "line": "Only if you made it."
+        }
+      ]
+    },
+    {
+      "scene": "EXT. CITY PARK - AFTERNOON - W.S.",
+      "content": [
+        {
+          "type": "description",
+          "text": "Children play near a fountain. Birds flutter around benches. Jack and Emily sit beneath a large oak tree."
+        },
+        {
+          "type": "dialogue",
+          "character": "JACK",
+          "line": "I used to come here as a kid."
+        },
+        {
+          "type": "dialogue",
+          "character": "EMILY",
+          "line": "You never told me that."
+        }
+      ]
+    },
+    {
+      "scene": "INT. BOOKSTORE - EVENING - C.U.",
+      "content": [
+        {
+          "type": "description",
+          "text": "The bookstore is quiet. Lamps cast a warm glow over the shelves. Emily reads a worn paperback."
+        },
+        {
+          "type": "dialogue",
+          "character": "JACK",
+          "line": "Found anything good?"
+        },
+        {
+          "type": "dialogue",
+          "character": "EMILY",
+          "line": "Just memories."
+        }
+      ]
+    }
+  ]
+  

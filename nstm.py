@@ -75,4 +75,4 @@ roteiro_processado = parse_script(conteudo)
 with open("THE MENU.json", "w", encoding="utf-8") as f:
     json.dump(roteiro_processado, f, indent=2, ensure_ascii=False)
 
-print("✅ Salvo THE MENU.json")
+print("Salvo THE MENU.json")
